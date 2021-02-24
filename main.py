@@ -19,8 +19,8 @@ BLACK = (0, 0, 0)
 ORANGE = (255,165,0)
 PURPLE = (128, 0, 128)
 TURQUOISE = (64,224,208)
-
-class Node: 
+GREY = (192,192,192)
+class Spot: 
     def __init__(self, row, col, width, total_rows):
         self.row = row
         self.col = col
@@ -95,3 +95,50 @@ def make_grid(rows, width):
 
 def draw_grid(win, rows, width):
     gap = width // rows
+    for i in range(rows):
+        pygame.draw.line(win, GREY, (0, i * gap), (width, i * gap))
+    for j in range(rows):
+        pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))
+
+def draw(win, grid, rows, width):
+    win.fill(WHITE)
+
+    for row in grid:
+        for spot in row:
+            spot.draw(win)
+    
+    draw_grid(win, rows, width)
+    pygame.display.update()
+
+def get_clicked_pos(pos, rows, width):
+    gap = width // rows
+    y, x = pos
+
+    row = y // gap
+    col = x // gap
+    return row, col
+
+def main(win, width):
+    ROWS = 50
+    grid = make_grid(ROWS, width)
+
+    start = None
+    end = None
+
+    run = True
+    started = False
+
+    while run:
+        for event in pygame.event.get():
+            if(event.type == pygame.QUIT):
+                run = False
+            
+            if started:
+                continue
+
+            if pygame.mouse.get_pressed()[0]:
+                pass
+            elif pygame.mouse.get_pressed()[2]:
+                pass
+
+    pygame.quit()
