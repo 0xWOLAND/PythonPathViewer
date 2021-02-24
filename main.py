@@ -6,9 +6,9 @@ from maze import generateMaze
 from random import randint
 
 
-WIDTH = 800
+WIDTH = 900
 HEIGHT = 1000
-FPS = 60
+FPS = 240
 clock = pygame.time.Clock()
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Path Finding Algorithm Visualizer")
@@ -116,11 +116,11 @@ def make_grid(rows, width):
             spot = Spot(i, j, gap, rows)
             spot.make_barrier()
             grid[i].append(spot)
-    for i in range(rows - 2):
+    for i in range(rows ):
         visited.append([])
-        for j in range(rows - 2):
+        for j in range(rows):
             visited[i].append(1)
-    grid = generateMaze((lambda: draw(WIN, grid, rows, width)), grid, visited, rows - 2)
+    grid = generateMaze((lambda: draw(WIN, grid, rows, width)), grid, visited, rows )
    
     return grid
 
@@ -153,7 +153,7 @@ def get_clicked_pos(pos, rows, width):
 
 
 def main(win, width):
-    ROWS = 49
+    ROWS = 75
     grid = make_grid(ROWS, width)
 
     start = None
