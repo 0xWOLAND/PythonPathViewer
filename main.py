@@ -159,7 +159,7 @@ def bfs(draw, grid, start, end):
         
 
 def main(win, width):
-    ROWS = 25
+    ROWS = 50
     grid = make_grid(ROWS, width)
 
     start = None
