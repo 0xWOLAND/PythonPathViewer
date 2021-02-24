@@ -1,10 +1,15 @@
 import pygame
 from pygame.locals import *
 import math
+from algorithms import bfs, dfs
+from maze import generateMaze
+from random import randint
+
 
 WIDTH = 800
 HEIGHT = 1000
-
+FPS = 60
+clock = pygame.time.Clock()
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("Path Finding Algorithm Visualizer")
 
@@ -48,6 +53,9 @@ class Spot:
     
     def is_end(self):
         return self.color == TURQUOISE
+    
+    def is_current(self):
+        return self.color == BLUE
 
     def reset(self):
         self.color = WHITE
@@ -70,6 +78,9 @@ class Spot:
     def make_path(self):
         self.color = PURPLE
     
+    def make_current(self):
+        self.color = BLUE
+    
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
@@ -91,19 +102,30 @@ class Spot:
 def dist(p1, p2):
     return abs(x1 - x2) + abs(y1 - y2)
 
+
+
+
+
 def make_grid(rows, width):
     grid = []
-    gap = width // rows
+    visited = []
+    gap = math.ceil(width / rows)
     for i in range(rows):
         grid.append([])
         for j in range(rows):
             spot = Spot(i, j, gap, rows)
+            spot.make_barrier()
             grid[i].append(spot)
-    
+    for i in range(rows - 2):
+        visited.append([])
+        for j in range(rows - 2):
+            visited[i].append(1)
+    grid = generateMaze((lambda: draw(WIN, grid, rows, width)), grid, visited, rows - 2)
+   
     return grid
 
 def draw_grid(win, rows, width):
-    gap = width // rows
+    gap = math.ceil(width / rows)
     for i in range(rows):
         pygame.draw.line(win, GREY, (0, i * gap), (width, i * gap))
     for j in range(rows):
@@ -128,38 +150,10 @@ def get_clicked_pos(pos, rows, width):
     
     return row, col
 
-def backtrace(draw, parent, start, end):
-    path = [end]
-    while path[-1] != start:
-        path.append(parent[path[-1]])
-    reverse_list = path[1:-1]
-    for spot in reverse_list:
-        print(spot)
-        spot.make_path()
-        draw()
 
-def bfs(draw, grid, start, end):
-    parent = {}
-    queue = []
-    queue.append(start)
-    while(queue):
-        node = queue.pop(0)
-        if not node.is_start() and not node.is_end():
-            node.make_closed() 
-        if node == end:
-            backtrace(draw, parent, start, end)
-            return
-        for adjacent in node.neighbors:
-            if node not in queue and not adjacent.is_closed():
-                parent[adjacent] = node
-                queue.append(adjacent)
-                if not adjacent.is_end() and not adjacent.is_start():
-                    adjacent.make_open()
-        draw()
-        
 
 def main(win, width):
-    ROWS = 50
+    ROWS = 49
     grid = make_grid(ROWS, width)
 
     start = None
@@ -201,13 +195,25 @@ def main(win, width):
                     end = None
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and not started:
+                if event.key == pygame.K_d and not started:
+                    for row in grid:
+                        for spot in row:
+                            spot.update_neighbors(grid)
+
+                    dfs(lambda: draw(win, grid, ROWS, width), grid, start, end)
+                elif event.key == pygame.K_b and not started:
                     for row in grid:
                         for spot in row:
                             spot.update_neighbors(grid)
 
                     bfs(lambda: draw(win, grid, ROWS, width), grid, start, end)
                 
+                elif event.key == pygame.K_c:
+                    start = None
+                    end = None
+                    grid = make_grid(ROWS, width)
+        clock.tick(FPS)
+        
                 
 
     pygame.quit()
