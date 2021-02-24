@@ -140,7 +140,7 @@ def algorithm(draw, grid, start, end):
     ans = None
     stack.append((cur, None))
     while(stack.count):
-        node = stack.pop()
+        node = stack.pop(0)
         if(node[0] == end):
             print("Found")
             ans = node
