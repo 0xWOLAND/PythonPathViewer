@@ -1,16 +1,16 @@
 import pygame
 from pygame.locals import *
 import math
-from algorithms import bfs, dfs
+from algorithms import bfs, dfs, A_Star
 from maze import generateMaze
 from random import randint
 
 
 WIDTH = 900
-HEIGHT = 1000
+HEIGHT = 900
 FPS = 240
 clock = pygame.time.Clock()
-WIN = pygame.display.set_mode((WIDTH, WIDTH))
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Path Finding Algorithm Visualizer")
 
 # Colors
@@ -99,9 +99,6 @@ class Spot:
     def __lt__(self, other):
         return False
 
-def dist(p1, p2):
-    return abs(x1 - x2) + abs(y1 - y2)
-
 
 
 
@@ -147,8 +144,8 @@ def get_clicked_pos(pos, rows, width):
 
     row = y // gap
     col = x // gap
-    
-    return row, col
+    print("({}, {})".format(row, col))
+    return min(row, rows - 1), min(col, rows - 1)
 
 
 
@@ -207,6 +204,12 @@ def main(win, width):
                             spot.update_neighbors(grid)
 
                     bfs(lambda: draw(win, grid, ROWS, width), grid, start, end)
+                elif event.key == pygame.K_a and not started:
+                    for row in grid:
+                        for spot in row:
+                            spot.update_neighbors(grid)
+
+                    A_Star(lambda: draw(win, grid, ROWS, width), grid, start, end)
                 
                 elif event.key == pygame.K_c:
                     start = None

@@ -1,3 +1,7 @@
+from queue import PriorityQueue
+import pygame
+
+
 def backtrace(draw, parent, start, end):
     path = [end]
     while path[-1] != start:
@@ -6,7 +10,6 @@ def backtrace(draw, parent, start, end):
     for spot in reverse_list:
         spot.make_path()
         draw()
-    
 
 
 def dfs(draw, grid, start, end):
@@ -17,7 +20,6 @@ def dfs(draw, grid, start, end):
         node = queue.pop()
         if not node.is_start() and not node.is_end():
             node.make_current()
-        print("({}, {})".format(node.get_pos()[0], node.get_pos()[1]))
         if node == end:
             backtrace(draw, parent, start, end)
             return
@@ -52,5 +54,46 @@ def bfs(draw, grid, start, end):
                     adjacent.make_open()
         draw()
         if not node.is_start() and not node.is_end():
-            node.make_closed() 
-        
+            node.make_closed()
+
+
+def A_Star(draw, grid, start, end):
+    count = 0
+    open_set = PriorityQueue()
+    open_set.put((0, count, start))
+    came_from = {}
+    g_score = {spot: float("inf") for row in grid for spot in row}
+    g_score[start] = 0
+    f_score = {spot: float("inf") for row in grid for spot in row}
+    f_score[start] = dist(start.get_pos(), end.get_pos())
+
+    open_set_hash = {start}
+
+    while not open_set.empty():
+        for event in pygame.event.get():
+           if event.type == pygame.QUIT:
+               pygame.quit()
+        current = open_set.get()[2]
+        open_set_hash.remove(current)
+        if current == end:
+           backtrace(draw, came_from, start, end)
+           end.make_end()
+           return True
+        for neighbor in current.neighbors:
+            temp_g_score = g_score[current] + 1
+            if temp_g_score < g_score[neighbor]:
+               came_from[neighbor] = current
+               g_score[neighbor] = temp_g_score
+               f_score[neighbor] = temp_g_score + dist(neighbor.get_pos(), end.get_pos())
+               if neighbor not in open_set_hash:
+                   count += 1
+                   open_set.put((f_score[neighbor], count, neighbor))
+                   open_set_hash.add(neighbor)
+                   neighbor.make_open()
+        draw()
+        if current != start:
+           current.make_closed()
+    return False
+
+def dist(p1, p2):
+    return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])

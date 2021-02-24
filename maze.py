@@ -31,10 +31,7 @@ def generateMaze(draw, grid, maze, rows):
                     grid[row][col].reset()
         draw()
 
-    for row in maze:
-        for col in row:
-            print(col, end=" ")
-        print()
+   
     return grid
 
 
