@@ -136,12 +136,14 @@ def algorithm(draw, grid, start, end):
         if(node == end):
             print("Found")
             break
-        elif(node.is_closed()):
-            continue
+        
         node.make_closed()
-        draw()
+
         for neighbor in node.neighbors:
-            stack.append(neighbor)
+            if(not neighbor.is_closed()):
+                stack.append(neighbor)
+                neighbor.make_open()
+        draw()
 
 def main(win, width):
     ROWS = 50
@@ -192,6 +194,7 @@ def main(win, width):
                             spot.update_neighbors(grid)
 
                     algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
+                
                 
 
     pygame.quit()
