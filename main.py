@@ -128,35 +128,38 @@ def get_clicked_pos(pos, rows, width):
     
     return row, col
 
-def reconstruct_path(draw, grid, node):
-    while(node[1] != None):
-        node[1][0].make_path()
-        node = node[1]
+def backtrace(draw, parent, start, end):
+    path = [end]
+    while path[-1] != start:
+        path.append(parent[path[-1]])
+    reverse_list = path[1:-1]
+    for spot in reverse_list:
+        print(spot)
+        spot.make_path()
         draw()
 
-def algorithm(draw, grid, start, end):
-    stack = []
-    cur = start
-    ans = None
-    stack.append((cur, None))
-    while(stack.count):
-        node = stack.pop(0)
-        if(node[0] == end):
-            print("Found")
-            ans = node
-            break
+def bfs(draw, grid, start, end):
+    parent = {}
+    queue = []
+    queue.append(start)
+    while(queue):
+        node = queue.pop(0)
+        if not node.is_start() and not node.is_end():
+            node.make_closed() 
+        if node == end:
+            backtrace(draw, parent, start, end)
+            return
+        for adjacent in node.neighbors:
+            if node not in queue and not adjacent.is_closed():
+                parent[adjacent] = node
+                queue.append(adjacent)
+                if not adjacent.is_end() and not adjacent.is_start():
+                    adjacent.make_open()
+        draw()
         
-        node[0].make_closed()
-
-        for neighbor in node[0].neighbors:
-            if(not neighbor.is_closed()):
-                stack.append((neighbor, node))
-                neighbor.make_open()
-        draw()
-    reconstruct_path(draw, grid, ans)
 
 def main(win, width):
-    ROWS = 50
+    ROWS = 25
     grid = make_grid(ROWS, width)
 
     start = None
@@ -203,7 +206,7 @@ def main(win, width):
                         for spot in row:
                             spot.update_neighbors(grid)
 
-                    algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
+                    bfs(lambda: draw(win, grid, ROWS, width), grid, start, end)
                 
                 
 
