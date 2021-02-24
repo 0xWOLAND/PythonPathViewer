@@ -125,25 +125,35 @@ def get_clicked_pos(pos, rows, width):
 
     row = y // gap
     col = x // gap
+    
     return row, col
+
+def reconstruct_path(draw, grid, node):
+    while(node[1] != None):
+        node[1][0].make_path()
+        node = node[1]
+        draw()
 
 def algorithm(draw, grid, start, end):
     stack = []
     cur = start
-    stack.append(cur)
+    ans = None
+    stack.append((cur, None))
     while(stack.count):
         node = stack.pop()
-        if(node == end):
+        if(node[0] == end):
             print("Found")
+            ans = node
             break
         
-        node.make_closed()
+        node[0].make_closed()
 
-        for neighbor in node.neighbors:
+        for neighbor in node[0].neighbors:
             if(not neighbor.is_closed()):
-                stack.append(neighbor)
+                stack.append((neighbor, node))
                 neighbor.make_open()
         draw()
+    reconstruct_path(draw, grid, ans)
 
 def main(win, width):
     ROWS = 50
