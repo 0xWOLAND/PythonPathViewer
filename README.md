@@ -19,6 +19,7 @@ python main.py
 # Algorithms
 ### Depth-first search (DFS)
 Depth-first search (DFS) is an algorithm for traversing or searching tree or graph data structures. The algorithm starts at the root node (selecting some arbitrary node as the root node in the case of a graph) and explores as far as possible along each branch before backtracking.
+
 ![alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Depth-First-Search.gif/220px-Depth-First-Search.gif)
 ##### Complexity
 - Worst complexity: O(|V| + |E|) 
@@ -26,6 +27,7 @@ Depth-first search (DFS) is an algorithm for traversing or searching tree or gra
 
 ### Breadth-first search (BFS)
 Breadth-first search is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root, and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.
+
 ![alt text](https://upload.wikimedia.org/wikipedia/commons/4/46/Animated_BFS.gif)
 ##### Complexity
 - Worst complexity: O(|E|) 
@@ -33,6 +35,7 @@ Breadth-first search is an algorithm for traversing or searching tree or graph d
 
 ### A* search algorithm
 A* is a graph traversal and path search algorithm, which is often used in many fields of computer science due to its completeness, optimality, and optimal efficiency. One major practical drawback is its O(b^d) space complexity, as it stores all generated nodes in memory.
+
 ![alt text](https://upload.wikimedia.org/wikipedia/commons/5/5d/Astar_progress_animation.gif)
 ##### Complexity
 - Worst complexity: O(|E|) 
