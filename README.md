@@ -1,6 +1,6 @@
 ![image](https://storage.googleapis.com/replit/images/1614213768648_3a7047c1d374416565182a55edf93aac.png)
 # Getting Started
-A pathfinder using Pygame to visualize the A* Algorithm, Depth-First Search, and Breadth-First Search.
+This is a pathfinder using Pygame to visualize the A* Algorithm, Depth-First Search, and Breadth-First Search.
 
 ### Controls
 Your first click will add the source node and your second click will add the destination node.
