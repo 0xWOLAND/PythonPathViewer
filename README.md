@@ -3,11 +3,14 @@
 A pathfinder using Pygame to visualize the A* Algorithm, Depth-First Search, and Breadth-First Search.
 
 ### Controls
+Your first click will add the source node and your second click will add the destination node.
 - c: Clear Board
 - m: Generate Maze (Hunt and Kill Algorithm)
 - b: Breadth-First Search
 - d: Depth-First Search
 - a: A* Algorithm
+- Right-Click: Add Barriers
+- Left-Click: Delete Barriers
 
 ### Run Code
 If you want to run this file locally, clone my Github repository [here](https://github.com/bhargavannem/PythonPathViewer). Then, run the following:
