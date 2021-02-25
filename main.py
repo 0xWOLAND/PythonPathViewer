@@ -103,7 +103,7 @@ class Spot:
 
 
 
-def make_grid(rows, width):
+def make_grid(rows, width, generate_grid=False):
     grid = []
     visited = []
     gap = math.ceil(width / rows)
@@ -111,13 +111,14 @@ def make_grid(rows, width):
         grid.append([])
         for j in range(rows):
             spot = Spot(i, j, gap, rows)
-            spot.make_barrier()
             grid[i].append(spot)
     for i in range(rows ):
         visited.append([])
         for j in range(rows):
+            grid[i][j].reset()
             visited[i].append(1)
-    grid = generateMaze((lambda: draw(WIN, grid, rows, width)), grid, visited, rows )
+    if generate_grid:
+        grid = generateMaze((lambda: draw(WIN, grid, rows, width)), grid, visited, rows)
    
     return grid
 
@@ -215,6 +216,10 @@ def main(win, width):
                     start = None
                     end = None
                     grid = make_grid(ROWS, width)
+                elif event.key == pygame.K_m:
+                    start = None
+                    end = None
+                    grid = make_grid(ROWS, width, True)
         clock.tick(FPS)
         
                 

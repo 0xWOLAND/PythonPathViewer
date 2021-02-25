@@ -74,6 +74,8 @@ def A_Star(draw, grid, start, end):
            if event.type == pygame.QUIT:
                pygame.quit()
         current = open_set.get()[2]
+        if not current.is_start() and not current.is_end():
+            current.make_current()
         open_set_hash.remove(current)
         if current == end:
            backtrace(draw, came_from, start, end)
