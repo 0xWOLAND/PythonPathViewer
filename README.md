@@ -4,7 +4,7 @@ This is a pathfinder using Pygame to visualize the A* Algorithm, Depth-First Sea
 
 ### Controls
 Your first click will add the source node and your second click will add the destination node.
-- c: Clear Board
+- c: Clear 
 - m: Generate Maze (Hunt and Kill Algorithm)
 - b: Breadth-First Search
 - d: Depth-First Search
