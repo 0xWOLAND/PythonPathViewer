@@ -145,7 +145,7 @@ def get_clicked_pos(pos, rows, width):
 
     row = y // gap
     col = x // gap
-    print("({}, {})".format(row, col))
+    # print("({}, {})".format(row, col))
     return min(row, rows - 1), min(col, rows - 1)
 
 
